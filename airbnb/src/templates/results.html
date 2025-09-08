@@ -8,42 +8,46 @@
 </head>
 <body>
     <div class="container">
-        <h1>Resultados da Raspagem</h1>
+        <h1>Scraped Results</h1>
+
         {% if data %}
-            <p>Foram encontrados {{ data | length }} itens.</p>
+            <p>{{ data | length }} items found.</p>
             <a href="{{ url_for('download_csv', scrape_job_id=scrape_job_id) }}" class="download-button">Download CSV</a>
 
-            <table border="1" cellspacing="0" cellpadding="5">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Availability</th>
-                        <th>Total Price</th>
-                        <th>URL</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in data %}
-                    <tr>
-                        <td>{{ item.productId }}</td>
-                        <td>{{ 'Yes' if item.isPropertyAvailable else 'No' }}</td>
-                        <td>{{ item.priceTotal }}</td>
-                        <td>
-                            {% if item.url %}
-                                <a href="{{ 'https://' ~ item.url if not item.url.startswith('http') else item.url }}" target="_blank">Open</a>
-                            {% else %}
-                                -
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Availability</th>
+                            <th>Total Price</th>
+                            <th>URL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in data %}
+                        <tr>
+                            <td>{{ item.productId }}</td>
+                            <td>{{ 'Yes' if item.isPropertyAvailable else 'No' }}</td>
+                            <td>{{ item.priceTotal }}</td>
+                            <td>
+                                {% if item.url %}
+                                    <a href="{{ 'https://' ~ item.url if not item.url.startswith('http') else item.url }}" target="_blank">Open</a>
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
         {% else %}
-            <p>Nenhum dado encontrado para este ID de job.</p>
+            <p class="message">No data found for this job ID.</p>
         {% endif %}
-        <a href="{{ url_for('index') }}" class="back-button">Nova Raspagem</a>
+
+        <a href="{{ url_for('index') }}" class="back-button">New Scrape</a>
     </div>
 </body>
 </html>

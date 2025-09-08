@@ -8,45 +8,50 @@
 </head>
 <body>
     <div class="container">
-        <h1>Web Scraper With Playwright and Flask</h1>
-            <form method="POST">
-        <label>City:</label>
-        <select name="city">
-            <option value="new-york-usa">New York</option>
-            <option value="rio-de-janeiro-brazil">Rio de Janeiro</option>
-            <option value="dubai-uae">Dubai</option>
-            <option value="paris-france">Paris</option>
-            <option value="london-uk">London</option>
-            <option value="tokyo-japan">Tokyo</option>
-            <option value="barcelona-spain">Barcelona</option>
-            <option value="rome-italy">Rome</option>
-            <option value="bali-indonesia">Bali</option>
-            <option value="sydney-australia">Sydney</option>
-        </select>
-        <br>
+        <h1>Web Scraper with Playwright and Flask</h1>
 
-        <label>Checkin:</label>
-        <input type="date" name="checkin" required><br>
-        <label>Checkout:</label>
-        <input type="date" name="checkout" required><br>
-        <label>Adults:</label>
-        <input type="number" name="adults" min="1" value="1"><br>
+        <form method="POST">
+            <label for="city">City:</label>
+            <select name="city" id="city">
+                <option value="new-york-usa">New York</option>
+                <option value="rio-de-janeiro-brazil">Rio de Janeiro</option>
+                <option value="dubai-uae">Dubai</option>
+                <option value="paris-france">Paris</option>
+                <option value="london-uk">London</option>
+                <option value="tokyo-japan">Tokyo</option>
+                <option value="barcelona-spain">Barcelona</option>
+                <option value="rome-italy">Rome</option>
+                <option value="bali-indonesia">Bali</option>
+                <option value="sydney-australia">Sydney</option>
+            </select>
 
-        <!-- dois botões diferentes -->
-        <button type="submit" name="action" value="save_data">Salvar Dados</button>
-        <button type="submit" name="action" value="run_scraper">Run Scraper</button>
-    </form>
+            <label for="checkin">Check-in:</label>
+            <input type="date" name="checkin" id="checkin" required>
 
-    {% if message %}
-        <p>{{ message }}</p>
-    {% endif %}
+            <label for="checkout">Check-out:</label>
+            <input type="date" name="checkout" id="checkout" required>
 
+            <label for="adults">Adults:</label>
+            <input type="number" name="adults" id="adults" min="1" value="1">
+
+            <div class="button-group">
+                <button type="submit" name="action" value="save_data">Save Data</button>
+                <button type="submit" name="action" value="run_scraper">Run Scraper</button>
+            </div>
+        </form>
+
+        {% if message %}
+            <p class="message">{{ message }}</p>
+        {% endif %}
 
         {% if data %}
-            <h2>Dados Raspados (Primeiros 10 resultados para visualização):</h2>
+            <h2>Scraped Data (First 10 results for preview):</h2>
             <ul>
                 {% for item in data[:10] %}
-                    <li><strong>{{ item.text }}</strong>: <a href="{{ item.href }}" target="_blank">{{ item.href }}</a></li>
+                    <li>
+                        <strong>{{ item.text }}</strong>: 
+                        <a href="{{ item.href }}" target="_blank">{{ item.href }}</a>
+                    </li>
                 {% endfor %}
             </ul>
         {% endif %}

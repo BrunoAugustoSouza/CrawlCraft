@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scraped Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Resultados da Raspagem</h1>
+        {% if data %}
+            <p>Foram encontrados {{ data | length }} itens.</p>
+            <a href="{{ url_for('download_csv', scrape_job_id=scrape_job_id) }}" class="download-button">Download CSV</a>
+
+            <table border="1" cellspacing="0" cellpadding="5">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Availability</th>
+                        <th>Total Price</th>
+                        <th>URL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in data %}
+                    <tr>
+                        <td>{{ item.productId }}</td>
+                        <td>{{ 'Yes' if item.isPropertyAvailable else 'No' }}</td>
+                        <td>{{ item.priceTotal }}</td>
+                        <td>
+                            {% if item.url %}
+                                <a href="{{ 'https://' ~ item.url if not item.url.startswith('http') else item.url }}" target="_blank">Open</a>
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        {% else %}
+            <p>Nenhum dado encontrado para este ID de job.</p>
+        {% endif %}
+        <a href="{{ url_for('index') }}" class="back-button">Nova Raspagem</a>
+    </div>
+</body>
+</html>

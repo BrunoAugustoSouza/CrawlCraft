@@ -32,12 +32,13 @@ def get_first_page_info(country:str, city: str, checkin:str,
         with sync_playwright() as p:
             browser = p.firefox.launch(headless=True)
             page = browser.new_page()
-            page.goto(search_url)
-            time.sleep(10)
+            page.goto(search_url, wait_until="networkidle")
+            page.wait_for_selector('div[itemprop="itemListElement"]', timeout=10000)
             # Obter o HTML da página
             html = page.content()
             soup = BeautifulSoup(html, "html.parser")
             # Encontrar as divs com itemprop="itemListElement"
+            
             item_list_divs = soup.find_all("div", itemprop="itemListElement")
             for div in item_list_divs:
                 # Pegando apenas as <meta> filhas diretas
@@ -73,5 +74,13 @@ def get_first_page_info(country:str, city: str, checkin:str,
     return df_imoveis
 
 if __name__=='__main__':
+    import uuid
+    city='New York'
+    country='USA'
+    checkin='2025-10-10'
+    checkout='2025-10-12'
+    adults=2
+    scraper_job_id=str(uuid.uuid4())
+    a=get_first_page_info(country, city, checkin, checkout, adults, scraper_job_id)
     pass
     

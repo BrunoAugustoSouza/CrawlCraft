@@ -1,0 +1,8 @@
+beautifulsoup4==4.13.5
+curl_cffi
+Flask==2.2.2
+ipdb==0.13.13
+pandas==2.3.2
+playwright
+SQLAlchemy==2.0.43
+Werkzeug<2.3,>=2.2

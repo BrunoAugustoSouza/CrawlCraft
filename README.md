@@ -33,7 +33,7 @@ I am **AWS Certified**, skilled in designing **data pipelines, cloud automation,
 
 ### Airbnb Scraping
 <div align="center">
-  <a href="projects/airbnb_scraping/README.md">
+  <a href="projects/airbnb_scraper/README.md">
     <img src="gifs/airbnb_demo.gif" alt="Airbnb Scraping Demo" width="600"/>
   </a>
 </div>
@@ -43,7 +43,7 @@ Automated scraping of Airbnb listings using Python. Project is containerized wit
 
 **Tech Stack:** Python | Docker | Playwright | Pandas | SQLite  
 
-[Explore Project Details →](projects/airbnb_scraping/README.md)
+[Explore Project Details →](projects/airbnb_scraper/README.md)
 
 ---
 

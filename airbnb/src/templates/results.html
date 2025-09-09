@@ -9,18 +9,23 @@
 <body>
     <div class="container">
         <h1>Scraped Results</h1>
-
+        
         {% if data %}
-            <p>{{ data | length }} items found.</p>
+            
             <a href="{{ url_for('download_csv', scrape_job_id=scrape_job_id) }}" class="download-button">Download CSV</a>
-
+            <a href="{{ url_for('index') }}" class="back-button">New Scrape</a>
+            <p><b> {{ data | length }}</b> items found.</p>
             <div class="table-responsive">
                 <table>
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Availability</th>
-                            <th>Total Price</th>
+                            <th>Check-In</th>
+                            <th>Check-Out</th>
+                            <th>{% if currency %}
+                                <b>Total Price ({{ currency }})</b>
+                            {% endif %}</th>
                             <th>URL</th>
                         </tr>
                     </thead>
@@ -29,6 +34,8 @@
                         <tr>
                             <td>{{ item.productId }}</td>
                             <td>{{ 'Yes' if item.isPropertyAvailable else 'No' }}</td>
+                            <td>{{ item.checkIn }}</td>
+                            <td>{{ item.checkOut }}</td>
                             <td>{{ item.priceTotal }}</td>
                             <td>
                                 {% if item.url %}
@@ -47,7 +54,7 @@
             <p class="message">No data found for this job ID.</p>
         {% endif %}
 
-        <a href="{{ url_for('index') }}" class="back-button">New Scrape</a>
+        
     </div>
 </body>
 </html>

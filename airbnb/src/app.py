@@ -2,7 +2,7 @@ import io, csv
 from flask import Flask, render_template, request, send_file, redirect, url_for
 import pandas as pd
 from common.db import Session, HomesUrl, Price
-from main import run_scraper
+from common.pipeline import run_scraper
 
 app = Flask(__name__)
 
@@ -17,6 +17,7 @@ def index():
         checkin = request.form.get("checkin")
         checkout = request.form.get("checkout")
         adults = request.form.get("adults", type=int)
+        currency = request.form.get("currency")
 
         if action == "run_scraper":
             # mapeia cidade -> nome/país
@@ -37,7 +38,7 @@ def index():
             if not city_name or not country:
                 return render_template("index.html", message="Cidade inválida")
 
-            scraped_data = run_scraper(country, city_name, checkin, checkout, adults)
+            scraped_data = run_scraper(country, city_name, checkin, checkout, adults, currency)
 
             if scraped_data is not None and not scraped_data.empty:
                 scrape_job_id = scraped_data['scrapeJobId'].iloc[0] if 'scrapeJobId' in scraped_data.columns else None
@@ -66,14 +67,18 @@ def show_results(scrape_job_id):
                 'priceNightTotal': item.priceNightTotal,
                 'checkIn': item.checkIn,
                 'checkOut': item.checkOut,
+                'currency': item.currency,
                 'url': item.url
             }
             for item in scraped_data
         ]
-
+        currency = data_for_template[0].get('currency', '-')
         if not data_for_template:
             return "No data found for this scrape job ID.", 404
-        return render_template('results.html', data=data_for_template, scrape_job_id=scrape_job_id)
+        return render_template('results.html', 
+                               data=data_for_template, 
+                               scrape_job_id=scrape_job_id,
+                               currency=currency)
     finally:
         session.close()
 
@@ -111,8 +116,3 @@ def download_csv(scrape_job_id):
 
 if __name__ == '__main__':
     app.run(debug=True)
-    # from ipdb import set_trace
-    
-    # r = run_scraper('USA', 'New York', '2025-12-01', '2025-12-20' ,adults=2)
-    # set_trace()
-    # print()

@@ -1,34 +1,51 @@
-
 import json
 import uuid
 import os,sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from ipdb import set_trace
+import os
 
 import pandas as pd
 
 from common.price import get_price, get_details
 from common.scraper import get_first_page_info
 from common.parser import clean_price_to_float, parse_price_from_json
-from common.db import engine, Session, Price
+from common.db import Session, Price
 
-def run_parallel_scraping(urls, max_workers=10):
+def run_parallel_scraping(urls, check_in, check_out, adults, currency, max_workers=10):
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        future_to_url = {executor.submit(scrape_airbnb, url): url for url in urls}
-        for future in as_completed(future_to_url):
-            future.result()  # força a exceção ser exibida se ocorrer
+        # Passando todos os parâmetros para a função
+        future_to_url = {
+            executor.submit(scrape_airbnb, url, check_in, check_out, adults, currency): url
+            for url in urls
+        }
 
-def scrape_airbnb(url):
+        results = []
+        for future in as_completed(future_to_url):
+            try:
+                result = future.result()  # força exceção se ocorrer
+                results.append(result)
+            except Exception as e:
+                url = future_to_url[future]
+                print(f"Erro ao processar {url}: {e}")
+        return results
+
+
+def delete_all_jsons(folderpath:str):
+    files = os.listdir(folderpath)
+    for file in files:
+        filepath = os.path.join(folderpath, file)
+        os.remove(filepath)
+
+def scrape_airbnb(url:str, check_in:str, check_out:str, adults:int, currency:str):
     room_id = url.split('/')[-1]
-    check_in = "2025-10-10"
-    check_out = "2025-10-12"
     proxy_url = ""  # Proxy URL (if needed)
     language="en"
     
     data, price_input, cookies = get_details(url, language, proxy_url)
     product_id = price_input["product_id"]
     api_key = price_input["api_key"]
-    currency = "USD"
+    currency = currency.upper()
     adults=1
     data = get_price(api_key, cookies, price_input["impression_id"], product_id, 
                 check_in, check_out, adults, currency, language, proxy_url)
@@ -45,19 +62,18 @@ def scrape_airbnb(url):
     with open(f'data/jsons/{room_id}.json', 'w', encoding='utf-8') as f:
         f.write(json.dumps(data))
 
-def run_scraper(country, city, checkin, checkout, adults):
+def run_scraper(country, city, checkin, checkout, adults, currency):
+    delete_all_jsons('data/jsons/')
     scrape_job_id = str(uuid.uuid4())
     try:
         df_homes = get_first_page_info(country, city, checkin, checkout, adults, scrape_job_id)
-        # df_homes.to_csv('data/csvs/df_homes.csv', sep=';', encoding='utf-8', index=False)
-        # df_homes = pd.read_csv('data/csvs/df_homes.csv', sep=';', encoding='utf-8')
     except Exception as e:
         df_homes=None
         print("Error: ", e)
         sys.exit()
         
     rooms_urls = df_homes['url'].to_list()
-    run_parallel_scraping(rooms_urls)
+    run_parallel_scraping(rooms_urls, checkin, checkout, adults, currency, max_workers=10)
     files = os.listdir('data/jsons/')
     jsons_files = [file for file in files if file.endswith('.json')]
     json_parsed_list = []
@@ -93,12 +109,3 @@ def run_scraper(country, city, checkin, checkout, adults):
 
 if __name__=='__main__':
     pass
-    # Parâmetros customizáveis
-    # city = "New York"
-    # country = "USA"
-    # checkin = "2025-10-10"
-    # checkout = "2025-10-12"
-    # adults = 1
-    # run_scraper(country, city, checkin, checkout, adults)
-    
-    

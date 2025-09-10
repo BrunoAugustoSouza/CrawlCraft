@@ -8,17 +8,20 @@
 
 ## 📝 Project Description
 
-This project automates scraping of Airbnb listings using **Python** and **Flask**.
-It is **containerized with Docker** for easy deployment, and the API runs on **port 5000** to serve listing data.
+This project provides a web application for scraping Airbnb listings using Python and Flask.
+It is containerized with Docker for easy deployment, and the application runs on localhost, port 5000, where users can navigate the interface to select the content they want to scrape and then download the results as a CSV file.
 
 The scraper collects key information such as:
 
-* Listing title and description
-* Price
-* Availability
-* URL links
+Listing title and description
 
-The project is modularized in `src/` for scalability and maintainability.
+Price
+
+Availability
+
+URL links
+
+The project is modularized in src/ for scalability and maintainability.
 
 ---
 
@@ -31,7 +34,6 @@ airbnb_scraping/
 │   └── ...
 ├── Dockerfile         # Container definition
 ├── requirements.txt   # Python dependencies
-├── data/              # Optional: sample or output data
 └── README.md          # Project documentation
 ```
 

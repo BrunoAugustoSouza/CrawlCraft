@@ -3,9 +3,10 @@ __pycache__/
 *.py[codz]
 *$py.class
 
-*.json
-*.csv
-*.db
+
+projects/airbnb_scraper/src/data/sql/*
+projects/airbnb_scraper/src/data/jsons/*
+
 # C extensions
 *.so
 

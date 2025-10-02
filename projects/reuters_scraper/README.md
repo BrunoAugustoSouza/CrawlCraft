@@ -4,8 +4,7 @@
 
 ## 📝 Project Description
 
-This project is a Scrapy-based web scraper for collecting news articles from Reuters using Python.
-It is containerized with Docker for easy deployment, and the scraper outputs results as JSON (unstructured data) or can be adapted to CSV/SQL for ETL workflows.
+This project is a Scrapy-based web scraper for collecting news articles from Reuters using Python. The scraper outputs results as JSON (unstructured data) or can be adapted to CSV/SQL for ETL workflows.
 
 The scraper collects key information such as:
 

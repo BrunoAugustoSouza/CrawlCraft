@@ -47,8 +47,13 @@ Automated scraping of Airbnb listings using Python. Project is containerized wit
 
 ---
 
-### 💼 More Projects Coming Soon
-I am continuously developing new projects to expand my portfolio, including data pipelines, scraping automation, and cloud-based solutions. Stay tuned!  
+### 💼 Reuters Scraping
+**Description:**  
+Automated scraping of Reuters articles using Python. Fully containerized with Docker, featuring a modular architecture for scalability and maintainability. Includes ETL-ready workflows, automatic proxy rotation, captcha bypass, browser impersonation, and advanced features for robust web scraping.
+
+**Tech Stack:** Python | Docker | Playwright | Scrapy 
+
+[Explore Project Details →](projects/airbnb_scraper/README.md)
 
 ---
 

@@ -57,7 +57,7 @@ Automated scraping of Reuters articles using Python. Built with a modular archit
 
 ---
 
-💹 Market Valuation Scraper
+### 💹 Market Valuation Scraper
 
 <div align="center">
   <a href="projects/market_valuation_scraper/README.md">
@@ -66,10 +66,10 @@ Automated scraping of Reuters articles using Python. Built with a modular archit
 </div>
 
 
-Description:
+**Description:** 
 Automated extraction of market valuation indicators and sentiment data from multiple financial sources using Python. The project integrates non-official APIs with TLS fingerprinting and JSON parsing to retrieve, clean, and analyze market metrics such as momentum, volatility, and safe haven demand. It includes analytical visualization with Plotly and Pandas to generate insights — such as the Fear & Greed Index — presented in a Jupyter Notebook for exploration and reporting.
 
-Tech Stack: Python | Requests | Pandas | Plotly | Jupyter Notebook
+**Tech Stack:** Python | Requests | Pandas | JSON | Plotly | Jupyter Notebook | Unnoficial APIs | TLS Fingerprinting
 
 [Explore Project Details →](projects/market_valuation_scraper/README.md)
 

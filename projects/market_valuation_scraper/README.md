@@ -1,6 +1,6 @@
 # Fear & Greed Index Dashboard
 
-![Fear & Greed](fear_and_greed.jpeg)
+![Fear & Greed](img/fear_and_greed.jpeg)
 
 ## About the Project
 
@@ -71,7 +71,7 @@ pip install -r requirements.txt
 
 This project produces charts like the one below:
 
-![Fear & Greed](fear_and_greed.jpeg)
+![Fear & Greed](img/fear_and_greed.jpeg)
 
 Each data point is color-coded based on its rating category, giving an **instant visual snapshot of market sentiment**.
 
